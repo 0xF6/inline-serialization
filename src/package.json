@@ -1,0 +1,16 @@
+{
+  "name": "com.invocative.libinlineser",
+  "version": "1.0.0",
+  "displayName": "libinlineser",
+  "description": "Library for inline-string primitive serialization",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "keywords": [
+    "serializer"
+  ],
+  "author": {
+    "name": "Invocative Studio",
+    "email": "support@invocative.studio",
+    "url": "https://invocative.studio"
+  }
+}
