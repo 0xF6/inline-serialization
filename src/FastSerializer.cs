@@ -70,7 +70,7 @@
         
         public static T UnSerialize<T>(string s)
         {
-            if (s is null)
+            if (string.IsNullOrEmpty(s))
                 return default;
 
             if (s.Length < 3)
