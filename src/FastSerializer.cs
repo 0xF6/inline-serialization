@@ -70,6 +70,9 @@
         
         public static T UnSerialize<T>(string s)
         {
+            if (s is null)
+                return default;
+
             if (s.Length < 3)
                 throw new SerializationException($"Invalid input string.");
 
