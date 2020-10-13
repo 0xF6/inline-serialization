@@ -104,22 +104,23 @@
             if (!mapping_rv.ContainsKey(typeof(T)))
                 throw new SerializationException($"Fast serialization not support '{typeof(T)}'.");
 
-            static Func<string, I> bind<I>()
+            static Func<string, IFormatProvider, I> bind<I>()
             {
                 if (typeof(I) == typeof(string))
-                    return z => (I)(object)z;
+                    return (z, x) => (I)(object)z;
 
                 if (cacheBinder.ContainsKey(typeof(I)))
-                    return cacheBinder[typeof(I)] as Func<string, I>;
-                return (Func<string, I>)(cacheBinder[typeof(I)] = typeof(I)
+                    return cacheBinder[typeof(I)] as Func<string, IFormatProvider, I>;
+                return (Func<string, IFormatProvider, I>)(cacheBinder[typeof(I)] = typeof(I)
                     .GetMethods()
                     .Where(x => x.IsStatic)
                     .Where(x => x.Name.Equals("parse", InvariantCultureIgnoreCase))
-                    .Where(x => x.GetParameters().Length == 1)
-                    .First(x => x.GetParameters().First().ParameterType == typeof(string))
-                    .CreateDelegate(typeof(Func<string, I>)));
+                    .Where(x => x.GetParameters().Length == 2)
+                    .Where(x => x.GetParameters().First().ParameterType == typeof(string))
+                    .First(x => x.GetParameters().Last().ParameterType == typeof(IFormatProvider))
+                    .CreateDelegate(typeof(Func<string, IFormatProvider, I>)));
             }
-            return bind<T>();
+            return (x) => bind<T>()(x, CultureInfo.InvariantCulture);
         }
 
 
