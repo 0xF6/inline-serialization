@@ -29,5 +29,13 @@ namespace test
             var s = FastSerializer.Serialize(true);
             Assert.Equal("i02True", s);
         }
+        [Fact]
+        public void Test04()
+        {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("ru");
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru");
+            var s = FastSerializer.UnSerialize<float>("f2012.12");
+            Assert.Equal(12.12f, s);
+        }
     }
 }
